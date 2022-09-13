@@ -23,6 +23,8 @@ public class AircraftConfig {
                 throw new FileCorruptedException();
             }
             runNumber = Integer.parseInt(line);
+            if (runNumber < 0)
+                throw new WrongTypeOfDataException();
             while (line != null) {
                 line = br.readLine();
                 if (line == null)
