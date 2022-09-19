@@ -1,6 +1,8 @@
 package com.avaj.aircraft;
 import com.avaj.WeatherTower;
 import com.avaj.FileManaj;
+import com.avaj.exceptions.FileNotFoundException;
+
 
 public class JetPlane extends Aircraft implements Flyable {
     private WeatherTower weatherTower;
@@ -9,7 +11,7 @@ public class JetPlane extends Aircraft implements Flyable {
     }
 
     @Override
-    public void updateConditions() {
+    public void updateConditions() throws FileNotFoundException{
         FileManaj.getFile();
         String weather = weatherTower.getWeather(this.coordinates);
         if ("SUN".equalsIgnoreCase(weather)){
@@ -40,7 +42,7 @@ public class JetPlane extends Aircraft implements Flyable {
     }
 
     @Override
-    public void registerTower(WeatherTower weatherTower) {
+    public void registerTower(WeatherTower weatherTower) throws FileNotFoundException{
         this.weatherTower = weatherTower;
         FileManaj.getFile();
         FileManaj.writeIntoFile("Tower says: JetPlane#" + this.name+ "("+ this.id +") registered to weather tower.");

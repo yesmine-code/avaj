@@ -2,6 +2,8 @@ package com.avaj;
 
 import com.avaj.aircraft.Coordinates;
 import com.avaj.aircraft.Flyable;
+import com.avaj.exceptions.FileNotFoundException;
+
 
 public class WeatherTower extends Tower {
 
@@ -9,11 +11,11 @@ public class WeatherTower extends Tower {
         return WeatherProvider.getProvider().getCurrentWeather(coordinates);
     }
 
-    void changeWeather(){
+    void changeWeather() throws FileNotFoundException{
         this.conditionChanged();
     }
     @Override
-    public void register(Flyable flyable){
+    public void register(Flyable flyable) throws FileNotFoundException{
         super.register(flyable);
         flyable.registerTower(this);
     }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.PrintWriter; 
 import java.io.IOException;
 import java.io.FileWriter;
+import com.avaj.exceptions.FileNotFoundException;
 
 public class FileManaj{
 
@@ -11,22 +12,27 @@ public class FileManaj{
     public static File file;
 
     private FileManaj(){
-    try {
+    }
+
+    private static void createFile() throws FileNotFoundException{
+        try {
             File myObj = new File("simulator.txt");
-        if (myObj.createNewFile()) {
-            System.out.println("File created: " + myObj.getName());
-            this.file = myObj;
-        } else {
-            System.out.println("File already exists.");}
+            if (!myObj.createNewFile()) {
+                PrintWriter writer = new PrintWriter(myObj.getName());
+                writer.print("");
+                writer.close();
+            }
+            file = myObj;
         } catch (IOException e) {
             System.out.println("An error occurred.");
-            e.printStackTrace();
+            throw new FileNotFoundException(file.getName());
         }
     }
 
-    public static FileManaj getFile(){
+    public static FileManaj getFile() throws FileNotFoundException{
         if(fileManager == null){
             fileManager = new FileManaj();
+            createFile();
         }
         return fileManager;
     }
@@ -36,11 +42,9 @@ public class FileManaj{
             FileWriter myWriter = new FileWriter(file.getName(), true);
             PrintWriter printWriter = new PrintWriter(myWriter);
             printWriter.println(str);
-            printWriter.write(str);
             printWriter.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");
-            e.printStackTrace();
         }
     }
 }
